@@ -8,7 +8,6 @@ export const Item = ({ title, price, imageUrl, types, sizes }) => {
   const [activeSize, setActiveSize] = useState(refSize.current);
 
   useEffect(() => {
-    console.log(activeType)
     refType.current.className = 'active';
   }, [activeType]);
 
@@ -17,9 +16,11 @@ export const Item = ({ title, price, imageUrl, types, sizes }) => {
   }, [activeSize]);
 
   const onChangePizzaType = (evt) => {
+    
     if (evt.target !== refType.current && evt.target !== evt.currentTarget) {
       refType.current.className = '';
       refType.current = evt.target;
+      
       setActiveType(refType.current);
     }
   };
@@ -47,11 +48,17 @@ export const Item = ({ title, price, imageUrl, types, sizes }) => {
               <li
                 key={index}
                 ref={refType}
+                data-type={type}
               >
                 {type}
               </li>
             ) : (
-              <li key={index}>{type}</li>
+              <li
+                key={index}
+                data-type={type}
+              >
+                {type}
+              </li>
             ),
           )}
         </ul>
@@ -61,6 +68,7 @@ export const Item = ({ title, price, imageUrl, types, sizes }) => {
               <li
                 key={index}
                 ref={refSize}
+                data-type={size}
               >
                 {size}
               </li>

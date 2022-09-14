@@ -6,3 +6,9 @@ export const CATEGORIES_TYPE = {
   hot: 'hot',
   closed: 'closed',
 };
+
+export const SORT_TYPE = {
+  pop: 'популярности',
+  price: 'цене',
+  ab: 'алфавиту',
+};
