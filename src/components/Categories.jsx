@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
+import { CATEGORIES_TYPE } from '../lib/const';
 
-export const Categories = () => {
+export const Categories = ({ setActiveCategory }) => {
   const ref = useRef();
   const [activeType, setActiveType] = useState(ref.current);
 
@@ -9,20 +10,28 @@ export const Categories = () => {
   }, [activeType]);
 
   const onChangeCategorie = (evt) => {
-    ref.current.className = '';
-    ref.current = evt.target;
-    setActiveType(ref.current);
+    if (evt.target !== ref.current && evt.target !== evt.currentTarget) {
+      ref.current.className = '';
+      ref.current = evt.target;
+      setActiveType(ref.current);
+      setActiveCategory(ref.current.dataset.type);
+    }
   };
 
   return (
     <div className='categories'>
       <ul onClick={onChangeCategorie}>
-        <li ref={ref}>Все</li>
-        <li>Мясные</li>
-        <li>Вегетарианская</li>
-        <li>Гриль</li>
-        <li>Острые</li>
-        <li>Закрытые</li>
+        <li
+          ref={ref}
+          data-type={CATEGORIES_TYPE.all}
+        >
+          Все
+        </li>
+        <li data-type={CATEGORIES_TYPE.meat}>Мясные</li>
+        <li data-type={CATEGORIES_TYPE.veg}>Вегетарианская</li>
+        <li data-type={CATEGORIES_TYPE.grill}>Гриль</li>
+        <li data-type={CATEGORIES_TYPE.hot}>Острые</li>
+        <li data-type={CATEGORIES_TYPE.closed}>Закрытые</li>
       </ul>
     </div>
   );

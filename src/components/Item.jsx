@@ -1,25 +1,77 @@
-export const Item = () => {
+import { useEffect, useRef, useState } from 'react';
+
+export const Item = ({ title, price, imageUrl, types, sizes }) => {
+  const refType = useRef();
+  const refSize = useRef();
+
+  const [activeType, setActiveType] = useState(refType.current);
+  const [activeSize, setActiveSize] = useState(refSize.current);
+
+  useEffect(() => {
+    console.log(activeType)
+    refType.current.className = 'active';
+  }, [activeType]);
+
+  useEffect(() => {
+    refSize.current.className = 'active';
+  }, [activeSize]);
+
+  const onChangePizzaType = (evt) => {
+    if (evt.target !== refType.current && evt.target !== evt.currentTarget) {
+      refType.current.className = '';
+      refType.current = evt.target;
+      setActiveType(refType.current);
+    }
+  };
+
+  const onChangePizzaSize = (evt) => {
+    if (evt.target !== refSize.current && evt.target !== evt.currentTarget) {
+      refSize.current.className = '';
+      refSize.current = evt.target;
+      setActiveSize(refSize.current);
+    }
+  };
+
   return (
     <div className='pizza-block'>
       <img
         className='pizza-block__image'
-        src='https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg'
+        src={imageUrl}
         alt='Pizza'
       />
-      <h4 className='pizza-block__title'>Чизбургер-пицца</h4>
+      <h4 className='pizza-block__title'>{title}</h4>
       <div className='pizza-block__selector'>
-        <ul>
-          <li className='active'>тонкое</li>
-          <li>традиционное</li>
+        <ul onClick={onChangePizzaType}>
+          {types.map((type, index) =>
+            index === 0 ? (
+              <li
+                key={index}
+                ref={refType}
+              >
+                {type}
+              </li>
+            ) : (
+              <li key={index}>{type}</li>
+            ),
+          )}
         </ul>
-        <ul>
-          <li className='active'>26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+        <ul onClick={onChangePizzaSize}>
+          {sizes.map((size, index) =>
+            index === 0 ? (
+              <li
+                key={index}
+                ref={refSize}
+              >
+                {size}
+              </li>
+            ) : (
+              <li key={index}>{size}</li>
+            ),
+          )}
         </ul>
       </div>
       <div className='pizza-block__bottom'>
-        <div className='pizza-block__price'>от 395 ₽</div>
+        <div className='pizza-block__price'>{`от ${price} ₽`}</div>
         <div className='button button--outline button--add'>
           <svg
             width='12'
