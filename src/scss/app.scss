@@ -24,15 +24,19 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, auto));
+
+    column-gap: 60px;
+    row-gap: 30px;
   }
 
   &__top {
-    display: flex;
+    width: 100%;
+    display: grid;
     align-items: center;
-    justify-content: space-between;
+    gap: 50px;
+    grid-template-columns: 1fr auto;
   }
 }
 

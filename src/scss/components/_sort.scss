@@ -1,6 +1,7 @@
 @import '../variables';
 
 .sort {
+  justify-self: end;
   position: relative;
   &__label {
     display: flex;
