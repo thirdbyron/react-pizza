@@ -67,7 +67,7 @@ export const Item = ({ title, price, imageUrl, types, sizes, id }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
+          <i>0</i>
         </div>
       </div>
     </div>
