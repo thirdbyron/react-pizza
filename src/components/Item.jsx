@@ -1,36 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setActiveSize, setActiveType } from '../redux/slices/optionSlice';
 
-export const Item = ({ title, price, imageUrl, types, sizes }) => {
-  const refType = useRef();
-  const refSize = useRef();
+export const Item = ({ title, price, imageUrl, types, sizes, id }) => {
+  const dispatch = useDispatch();
 
-  const [activeType, setActiveType] = useState(refType.current);
-  const [activeSize, setActiveSize] = useState(refSize.current);
-
-  useEffect(() => {
-    refType.current.className = 'active';
-  }, [activeType]);
-
-  useEffect(() => {
-    refSize.current.className = 'active';
-  }, [activeSize]);
+  const itemForSize = useSelector((state) =>
+    state.options.activePizzaSizes.find((item) => item.id === id),
+  );
+  const itemForType = useSelector((state) =>
+    state.options.activePizzaTypes.find((item) => item.id === id),
+  );
 
   const onChangePizzaType = (evt) => {
-    
-    if (evt.target !== refType.current && evt.target !== evt.currentTarget) {
-      refType.current.className = '';
-      refType.current = evt.target;
-      
-      setActiveType(refType.current);
-    }
+    dispatch(setActiveType({ id, activeType: Number(evt.target.dataset.id) }));
   };
 
   const onChangePizzaSize = (evt) => {
-    if (evt.target !== refSize.current && evt.target !== evt.currentTarget) {
-      refSize.current.className = '';
-      refSize.current = evt.target;
-      setActiveSize(refSize.current);
-    }
+    dispatch(setActiveSize({ id, activeSize: Number(evt.target.dataset.id) }));
   };
 
   return (
@@ -43,39 +29,26 @@ export const Item = ({ title, price, imageUrl, types, sizes }) => {
       <h4 className='pizza-block__title'>{title}</h4>
       <div className='pizza-block__selector'>
         <ul onClick={onChangePizzaType}>
-          {types.map((type, index) =>
-            index === 0 ? (
-              <li
-                key={index}
-                ref={refType}
-                data-type={type}
-              >
-                {type}
-              </li>
-            ) : (
-              <li
-                key={index}
-                data-type={type}
-              >
-                {type}
-              </li>
-            ),
-          )}
+          {types.map((type, index) => (
+            <li
+              className={itemForType?.activeType === index ? 'active' : ''}
+              key={index}
+              data-id={index}
+            >
+              {type}
+            </li>
+          ))}
         </ul>
         <ul onClick={onChangePizzaSize}>
-          {sizes.map((size, index) =>
-            index === 0 ? (
-              <li
-                key={index}
-                ref={refSize}
-                data-type={size}
-              >
-                {size}
-              </li>
-            ) : (
-              <li key={index}>{size}</li>
-            ),
-          )}
+          {sizes.map((size, index) => (
+            <li
+              className={itemForSize?.activeSize === index ? 'active' : ''}
+              key={index}
+              data-id={index}
+            >
+              {size}
+            </li>
+          ))}
         </ul>
       </div>
       <div className='pizza-block__bottom'>

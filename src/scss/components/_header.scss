@@ -5,9 +5,11 @@
   padding: 40px 0;
 
   .container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 3fr 2fr 1.5fr;
     align-items: center;
-    justify-content: space-between;
+    gap: 40px;
+    
   }
 
   &__logo {

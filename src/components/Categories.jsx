@@ -1,26 +1,30 @@
 import { useEffect, useState, useRef } from 'react';
 import { CATEGORIES_TYPE } from '../lib/const';
+import { useDispatch } from 'react-redux';
+import { setActiveCategory } from '../redux/slices/filterSlice';
+import React from 'react';
 
-export const Categories = ({ setActiveCategory }) => {
+export default React.memo(function Categories() {
+  const dispatch = useDispatch();
   const ref = useRef();
-  const [activeType, setActiveType] = useState(ref.current);
 
+  const [activeType, setActiveType] = useState(ref.current);
   useEffect(() => {
     ref.current.className = 'active';
   }, [activeType]);
 
-  const onChangeCategorie = (evt) => {
+  const onChangeCategory = (evt) => {
     if (evt.target !== ref.current && evt.target !== evt.currentTarget) {
       ref.current.className = '';
       ref.current = evt.target;
       setActiveType(ref.current);
-      setActiveCategory(ref.current.dataset.type);
+      dispatch(setActiveCategory(ref.current.dataset.type));
     }
   };
 
   return (
     <div className='categories'>
-      <ul onClick={onChangeCategorie}>
+      <ul onClick={onChangeCategory}>
         <li
           ref={ref}
           data-type={CATEGORIES_TYPE.all}
@@ -35,4 +39,4 @@ export const Categories = ({ setActiveCategory }) => {
       </ul>
     </div>
   );
-};
+}) 

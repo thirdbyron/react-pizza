@@ -1,0 +1,13 @@
+.search {
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid lightgray;
+  width: 200px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+
+  &__input {
+    border: none;
+  }
+}

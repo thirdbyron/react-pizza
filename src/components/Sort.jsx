@@ -1,9 +1,15 @@
 import { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import { SORT_TYPE } from '../lib/const';
+import { useSelector, useDispatch } from 'react-redux';
+import { setActiveSortType } from '../redux/slices/filterSlice';
+import React from 'react';
 
-export const Sort = ({ activeSortType, setActiveSortType }) => {
+export default React.memo(function Sort() {
+  const dispatch = useDispatch();
   const refSort = useRef();
+  const activeSortType = useSelector((state) => state.filter.activeSortType);
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [activeSort, setActiveSort] = useState(refSort.current);
 
@@ -34,27 +40,29 @@ export const Sort = ({ activeSortType, setActiveSortType }) => {
       refSort.current.className = '';
       refSort.current = evt.target;
       setActiveSort(refSort.current);
-      setActiveSortType(refSort.current.dataset.type);
+      dispatch(setActiveSortType(refSort.current.dataset.type));
     }
   };
 
   return (
     <div className='sort'>
       <div className='sort__label'>
-        <svg
-          width='10'
-          height='6'
-          viewBox='0 0 10 6'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-          style={isPopupOpen ? {} : { transform: 'rotate(180deg)' }}
-        >
-          <path
-            d='M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z'
-            fill='#2C2C2C'
-          />
-        </svg>
-        <b>Сортировка по:</b>
+        <div>
+          <svg
+            width='10'
+            height='6'
+            viewBox='0 0 10 6'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+            style={isPopupOpen ? {} : { transform: 'rotate(180deg)' }}
+          >
+            <path
+              d='M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z'
+              fill='#2C2C2C'
+            />
+          </svg>
+          <b>Сортировка по:</b>
+        </div>
         <span onClick={onSortClick}>{`${activeSortType}`}</span>
       </div>
       <div
@@ -74,4 +82,4 @@ export const Sort = ({ activeSortType, setActiveSortType }) => {
       </div>
     </div>
   );
-};
+});

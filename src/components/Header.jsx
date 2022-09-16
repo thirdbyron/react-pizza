@@ -1,6 +1,9 @@
-import mainLogo from '../assets/img/pizza-logo.svg'
+import mainLogo from '../assets/img/pizza-logo.svg';
+import { Search } from './Search';
+import React from 'react';
 
-export const Header = () => {
+export default React.memo(function Header() {
+
   return (
     <div className='header'>
       <div className='container'>
@@ -15,6 +18,7 @@ export const Header = () => {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </div>
+        <Search />
         <div className='header__cart'>
           <a
             href='/cart.html'
@@ -57,4 +61,4 @@ export const Header = () => {
       </div>
     </div>
   );
-};
+});
